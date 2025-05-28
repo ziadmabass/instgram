@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:testfirebase/chat/presentation/screens/chat_list_screen.dart';
 import 'package:testfirebase/widgets/post_widget.dart';
-import 'package:testfirebase/widgets/story_bar.dart'; // <-- make sure you import this
-import 'package:testfirebase/widgets/story_view_screen.dart'; // <-- keep this if used elsewhere
-
+import 'package:testfirebase/widgets/story_bar.dart'; 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -16,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   @override
@@ -27,18 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: SizedBox(
-          width: 105.w,
-          height: 28.h,
-          child: Text(
+        title:  Text(
             'instagram'.tr(),
             style: TextStyle(
               fontFamily: 'Billabong',
-              fontSize: 24.sp,
+              fontSize: 35.sp,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.secondary,
             ),
-          ),
+          
         ),
         actions: [
           const Icon(
@@ -67,14 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(8.0),
         child: CustomScrollView(
           slivers: [
-            // 👇👇 ADD STORIES BAR HERE
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: const StoriesBar(), // <--- add your StoriesBar widget
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: StoriesBar(), 
               ),
             ),
-            // 👇 POSTS LIST
             StreamBuilder(
               stream: _firebaseFirestore
                   .collection('posts')

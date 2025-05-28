@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:testfirebase/screen/add_post_screen.dart';
@@ -73,7 +74,7 @@ class _AddScreenState extends State<AddScreen> {
                         navigationTapped(0);
                       },
                       child: Text(
-                        'Post',
+                        'posts'.tr(),
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
@@ -87,7 +88,7 @@ class _AddScreenState extends State<AddScreen> {
                         navigationTapped(1);
                       },
                       child: Text(
-                        'Reels',
+                        'reel'.tr(),
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w500,

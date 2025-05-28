@@ -1,9 +1,8 @@
-// saved_posts_screen.dart
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:testfirebase/widgets/post_widget.dart'; // Import PostWidget
+import 'package:testfirebase/widgets/post_widget.dart'; 
 
 class SavedPostsScreen extends StatelessWidget {
   const SavedPostsScreen({super.key});
@@ -14,13 +13,13 @@ class SavedPostsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Saved Posts"),
+        title: Text("saved_posts".tr()),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('posts')
-            .where('saved', arrayContains: userId) // Filter saved posts by user
+            .where('saved', arrayContains: userId) 
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -30,7 +29,7 @@ class SavedPostsScreen extends StatelessWidget {
           final posts = snapshot.data!.docs;
           
           if (posts.isEmpty) {
-            return Center(child: Text("No saved posts"));
+            return Center(child: Text("nosaved".tr()));
           }
 
           return ListView.builder(

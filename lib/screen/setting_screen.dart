@@ -43,12 +43,6 @@ class SettingScreen extends StatelessWidget {
             leading: const Icon(Icons.color_lens),
             title: Text('theme'.tr()),
           ),
-          const SizedBox(height: 50,),
-
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: Text('logout'.tr()),
-          ),
         ],
       ),
     );

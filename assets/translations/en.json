@@ -16,7 +16,6 @@
     "theme": "Change Theme",
     "save": "Save",
     "cancel": "Cancel",
-    "edit": "Edit",
     "delete": "Delete",
     "add": "Add",
     "create": "Create",
@@ -50,7 +49,22 @@
     "posts":"Posts",
     "followers":"Followers",
     "following":"Following" ,
-    "edit_profile":"Edit Your Profile"
+    "edit_profile":"Edit Your Profile",
+    "back":"Back",
+    "edit":"Edit Profile",
+    "done":"Done",
+    "change_photo":"Change Profile Photo",
+    "switch":"Switch to Professional Account",
+    "priv":"Private Information",
+    "website":"Location",
+    "phone":"Phone Number",
+    "gender":"Gender",
+    "nosaved":"No Saved Posts",
+    "reel":"Reel",
+    "share":"Share",
+    "writecaption":"Write a caption ...",
+    "savedraft":"Save Draft"    
+    
 
 
 

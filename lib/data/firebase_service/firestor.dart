@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -182,12 +181,10 @@ class Firebase_Firestor {
       List<dynamic> savedList = snapshot.data()?['saved'] ?? [];
 
       if (savedList.contains(uid)) {
-        // Remove from saved
         await postRef.update({
           'saved': FieldValue.arrayRemove([uid]),
         });
       } else {
-        // Add to saved
         await postRef.update({
           'saved': FieldValue.arrayUnion([uid]),
         });

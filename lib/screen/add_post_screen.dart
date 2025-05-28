@@ -37,7 +37,7 @@ class AddPostScreen extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: Text(
-                        'next'.tr(),
+                        'share'.tr(),
                         style: TextStyle(fontSize: 15.sp, color: Colors.blue),
                       ),
                     ),

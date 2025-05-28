@@ -1,24 +1,39 @@
 import 'dart:io';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:testfirebase/data/firebase_service/firestor.dart';
-import 'package:testfirebase/data/firebase_service/storage.dart';
+import 'package:testfirebase/controller/addreelscupit/reels_cubit.dart';
+import 'package:testfirebase/controller/addreelscupit/reels_state.dart';
+
 import 'package:video_player/video_player.dart';
 
-// ignore: must_be_immutable
-class ReelsEditeScreen extends StatefulWidget {
-  File videoFile;
-  ReelsEditeScreen(this.videoFile, {super.key});
+
+class ReelsEditeScreen extends StatelessWidget {
+  final File videoFile;
+  const ReelsEditeScreen(this.videoFile, {super.key});
 
   @override
-  State<ReelsEditeScreen> createState() => _ReelsEditeScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => ReelsCubit(),
+      child: ReelsEditeScreenBody(videoFile),
+    );
+  }
 }
 
-class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
+class ReelsEditeScreenBody extends StatefulWidget {
+  final File videoFile;
+  const ReelsEditeScreenBody(this.videoFile, {super.key});
+
+  @override
+  State<ReelsEditeScreenBody> createState() => _ReelsEditeScreenBodyState();
+}
+
+class _ReelsEditeScreenBodyState extends State<ReelsEditeScreenBody> {
   final caption = TextEditingController();
   late VideoPlayerController controller;
-  bool Loading = false;
+
   @override
   void initState() {
     super.initState();
@@ -32,114 +47,125 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    caption.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        centerTitle: false,
-        title: const Text(
-          'New Reels',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: Loading
-            ? const Center(
-                child: CircularProgressIndicator(
-                color: Colors.black,
-              ))
-            : Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: Column(
-                  children: [
-                    SizedBox(height: 30.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.w),
-                      child: SizedBox(
-                          width: 270.w,
-                          height: 420.h,
-                          child: controller.value.isInitialized
-                              ? AspectRatio(
-                                  aspectRatio: controller.value.aspectRatio,
-                                  child: VideoPlayer(controller),
-                                )
-                              : const CircularProgressIndicator()),
-                    ),
-                    SizedBox(height: 20.h),
-                    SizedBox(
-                      height: 60,
-                      width: 280.w,
-                      child: TextField(
-                        controller: caption,
-                        maxLines: 10,
-                        decoration: const InputDecoration(
-                          hintText: 'Write a caption ...',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    const Divider(),
-                    SizedBox(height: 20.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return BlocConsumer<ReelsCubit, ReelsState>(
+      listener: (context, state) {
+        if (state is EditReelsLoaded) {
+          Navigator.pop(context);
+        } else if (state is ReelsError) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.message),
+          ));
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            iconTheme: const IconThemeData(color: Colors.black),
+            centerTitle: false,
+            title: Text(
+              'newreel'.tr(),
+              style: const TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+          body: SafeArea(
+            child: state is EditReelsLoading
+                ? const Center(
+                    child: CircularProgressIndicator(color: Colors.black),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Column(
                       children: [
-                        Container(
-                          alignment: Alignment.center,
-                          height: 45.h,
-                          width: 150.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          child: Text(
-                            'Save draft',
-                            style: TextStyle(fontSize: 16.sp),
+                        SizedBox(height: 30.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          child: SizedBox(
+                            width: 270.w,
+                            height: 420.h,
+                            child: controller.value.isInitialized
+                                ? AspectRatio(
+                                    aspectRatio: controller.value.aspectRatio,
+                                    child: VideoPlayer(controller),
+                                  )
+                                : const CircularProgressIndicator(),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            setState(() {
-                              Loading = true;
-                            });
-                            String reelsUrl = await StorageMethod()
-                                .uploadImageToStorage(
-                                    'Reels', widget.videoFile);
-                            await Firebase_Firestor().CreatReels(
-                              video: reelsUrl,
-                              caption: caption.text,
-                            );
-                            Navigator.of(context).pop();
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 45.h,
-                            width: 150.w,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10.r),
+                        SizedBox(height: 20.h),
+                        SizedBox(
+                          height: 60,
+                          width: 280.w,
+                          child: TextField(
+                            controller: caption,
+                            maxLines: 10,
+                            decoration: InputDecoration(
+                              hintText: 'writecaption'.tr(),
+                              border: InputBorder.none,
                             ),
-                            child: Text(
-                              'Share',
-                              style: TextStyle(
-                                fontSize: 16.sp,
+                          ),
+                        ),
+                        const Divider(),
+                        SizedBox(height: 20.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              height: 45.h,
+                              width: 150.w,
+                              decoration: BoxDecoration(
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Text(
+                                'savedraft'.tr(),
+                                style: TextStyle(fontSize: 16.sp),
                               ),
                             ),
-                          ),
-                        ),
+                            GestureDetector(
+                              onTap: () {
+                                context.read<ReelsCubit>().uploadReel(
+                                      videoFile: widget.videoFile,
+                                      caption: caption.text,
+                                    );
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 45.h,
+                                width: 150.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child: Text(
+                                  'share'.tr(),
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
-              ),
-      ),
+                    ),
+                  ),
+          ),
+        );
+      },
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:testfirebase/auth/mainpage.dart';
 import 'package:testfirebase/chat/data/repositories/chat_repository.dart';
 import 'package:testfirebase/chat/presentation/cubit/chat_cubit.dart';
+import 'package:testfirebase/controller/addreelscupit/reels_cubit.dart';
 import 'package:testfirebase/controller/mediacubit/media_cupit.dart';
 import 'package:testfirebase/firebase_options.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -40,6 +41,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => ChatCubit(ChatRepository())),
         BlocProvider(create: (context) => MediaCubit()),
+        BlocProvider(create: (context) => ReelsCubit()),
+
 
       ], 
       child: MaterialApp(

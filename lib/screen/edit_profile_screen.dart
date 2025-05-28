@@ -1,14 +1,11 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:testfirebase/data/firebase_service/firestor.dart';
 import 'package:testfirebase/data/model/usermodel.dart';
-
-import '../chat/data/models/user_model.dart';
-import '../theme/theme_provider.dart';
 import '../util/imagepicker.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -98,9 +95,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final themeProvider = Provider.of<ThemeProvider>(context);
-    // final isDarkMode = themeProvider.isDarkMode;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -109,14 +103,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text(
-            "Back",
+          child: Text(
+            "back".tr(),
             style: TextStyle(color: Colors.blue),
           ),
         ),
         centerTitle: true,
         title: Text(
-          'Edit Profile',
+          'edit'.tr(),
           style: TextStyle(color: Theme.of(context).colorScheme.secondary),
         ),
         actions: [
@@ -124,8 +118,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             onPressed: () async {
               await _updateProfile();
             },
-            child: const Text(
-              "Done",
+            child:Text(
+              "done".tr(),
               style: TextStyle(color: Colors.blue),
             ),
           ),
@@ -138,7 +132,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           padding: EdgeInsets.all(20.w),
           child: Column(
             children: [
-              // صورة الملف الشخصي
               Center(
                 child: Column(
                   children: [
@@ -170,8 +163,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           _imageFile = imageFile;
                         });
                       },
-                      child: const Text(
-                        'Change Profile Photo',
+                      child: Text(
+                        'change_photo'.tr(),
                         style: TextStyle(color: Colors.blue),
                       ),
                     ),
@@ -179,17 +172,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(height: 20.h),
-              // الحقول
-              buildTextField("Name", nameController, ),
-              buildTextField("Username", usernameController),
-              buildTextField("Website", websiteController,
-                 ),
-              buildTextField("Bio", bioController, ),
+              buildTextField("name".tr(), nameController, ),
+              buildTextField("username".tr(), usernameController),
+              buildTextField("website".tr(), websiteController,),
+              buildTextField("bio".tr(), bioController, ),
               SizedBox(height: 20.h),
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  "Switch to Professional Account",
+                child:Text(
+                  "switch".tr(),
                   style: TextStyle(color: Colors.blue),
                 ),
               ),
@@ -197,7 +188,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Private Information",
+                  "priv".tr(),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.secondary,
@@ -205,9 +196,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(height: 10.h),
-              buildTextField("Email", emailController, ),
-              buildTextField("Phone", phoneController, ),
-              buildTextField("Gender", genderController, ),
+              buildTextField("email".tr(), emailController, ),
+              buildTextField("phone".tr(), phoneController, ),
+              buildTextField("gender".tr(), genderController, ),
             ],
           ),
         ),

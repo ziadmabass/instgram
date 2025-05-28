@@ -5,7 +5,7 @@ import 'package:testfirebase/data/firebase_service/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback show;
-  const LoginScreen(this.show, {super.key});
+  const LoginScreen(this.show, {super.key,});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

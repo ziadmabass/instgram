@@ -25,7 +25,6 @@ class _PostWidgetState extends State<PostWidget> {
     try {
       final uid = _auth.currentUser!.uid;
 
-      // Call FirestoreService to save/unsave the post
       await _firestoreService.savePost(
         postId: widget.snapshot['postId'],
         uid: uid,
@@ -33,9 +32,9 @@ class _PostWidgetState extends State<PostWidget> {
 
       setState(() {
         if (savedUsers.contains(uid)) {
-          savedUsers.remove(uid); // Remove user from saved
+          savedUsers.remove(uid); 
         } else {
-          savedUsers.add(uid); // Add user to saved
+          savedUsers.add(uid);
         }
       });
     } catch (e) {
@@ -203,7 +202,7 @@ class _PostWidgetState extends State<PostWidget> {
                     padding: EdgeInsets.only(right: 15.w),
                     child: InkWell(
                       onTap:
-                          savePost, // Calls the savePost() function when tapped
+                          savePost, 
                       child: Icon(
                         savedUsers.contains(user)
                             ? Icons.bookmark

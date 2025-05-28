@@ -154,7 +154,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               children: [
                  Icon(
                   Icons.search,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 SizedBox(width: 10.w),
                 Expanded(
@@ -171,7 +171,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     controller: search,
                     decoration:  InputDecoration(
                       hintText: 'search_user'.tr(),
-                      hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      hintStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
